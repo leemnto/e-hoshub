@@ -14,7 +14,7 @@ st.caption("For nurses and technicians to monitor patient status and tasks")
 # 🏥 Mock Data
 # ----------------------------
 departments = {
-    "Cardiology": {
+    "Emergency / ER": {
         "Yue Liang": {
             "Test Results": pd.DataFrame({
                 "Test ID": [101, 102],
@@ -60,7 +60,7 @@ departments = {
             })
         }
     },
-    "Oncology": {
+    "Dental": {
         "Mary Poppings": {
             "Test Results": pd.DataFrame({
                 "Test ID": [201],
