@@ -3,7 +3,7 @@ import streamlit as st
 st.set_page_config(page_title="E-Hospital Dashboard", layout="wide")
 
 st.title("🏥 E-Hospital Interactive Dashboard")
-st.write("Welcome to the prototype. Use the sidebar to switch roles.")
+st.write("Welcome to the E-hospital data management platform. Use the sidebar to switch roles.")
 
 # 侧边栏导航
 page = st.sidebar.radio(
@@ -20,7 +20,7 @@ page = st.sidebar.radio(
 if page == "🏠 Home":
     st.header("System Overview")
     st.write("""
-        This is a demo dashboard for an e-Hospital platform with four user roles:
+        This is a dashboard for an e-Hospital platform with four user roles:
         - Doctors
         - Patients
         - Clinical staff
