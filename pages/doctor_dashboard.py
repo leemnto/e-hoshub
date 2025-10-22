@@ -30,7 +30,7 @@ def generate_patient_data(seed):
         "Temperature": 36.5 + np.random.randn(30) * 0.3,
         "Blood Pressure": 120 + np.random.randn(30),
         "Heart Rate": 70 + np.random.randn(30) * 2,
-        "Weight": 65 + np.random.randn(30).cumsum(),
+        "Weight": 65 + np.random.randn(30),
         "Height": 170 + np.random.randn(30) * 0.1
     })
     return df
