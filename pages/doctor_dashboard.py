@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-from datetime import datetime, timedelta
+from datetime import datetime
 import plotly.express as px
 
 # ----------------------------
@@ -27,24 +27,28 @@ def generate_patient_data(seed):
     dates = pd.date_range(end=datetime.today(), periods=30)
     df = pd.DataFrame({
         "date": dates,
-        "Temprature": 120 + np.random.randn(30).cumsum(),
-        "blood_pressure": 80 + np.random.randn(30).cumsum(),
-        "heart_rate": 70 + np.random.randn(30) * 2,
-        "Weight": 100 + np.random.randn(30).cumsum(),
-        "Height": 180 + np.random.randn(30).cumsum()
+        "Temperature": 36.5 + np.random.randn(30) * 0.3,
+        "Blood Pressure": 120 + np.random.randn(30).cumsum(),
+        "Heart Rate": 70 + np.random.randn(30) * 2,
+        "Weight": 65 + np.random.randn(30).cumsum(),
+        "Height": 170 + np.random.randn(30) * 0.1
     })
     return df
 
 if selected_patient == "Mary Poppings":
     df = generate_patient_data(42)
-elif selected_patient == "Jackson Wang":
+else:
     df = generate_patient_data(7)
 
 # ----------------------------
 # 📈 Vital Signs Chart
 # ----------------------------
-st.subheader("📉 Vital Signs Over Time")
-st.line_chart(df.set_index("date")[["systolic_bp", "diastolic_bp", "heart_rate"]])
+st.subheader("📉 Vital Signs Over Time (Temperature, Blood Pressure, Heart Rate)")
+
+st.line_chart(
+    df.set_index("date")[["Temperature", "Blood Pressure", "Heart Rate"]],
+    use_container_width=True
+)
 
 # ----------------------------
 # 🧬 AI Diagnostic Results
@@ -64,14 +68,20 @@ else:
 # ----------------------------
 # 📊 Historical Trends (Bar Chart)
 # ----------------------------
-st.subheader("📊 Historical Trends (Key Metrics)")
+st.subheader("📊 Historical Trends (Weight & Height)")
 
-trend_df = df.melt(id_vars="date", value_vars=["glucose", "cholesterol"], var_name="metric", value_name="value")
+trend_df = df.melt(
+    id_vars="date",
+    value_vars=["Weight", "Height"],
+    var_name="Metric",
+    value_name="Value"
+)
+
 fig = px.bar(
     trend_df,
     x="date",
-    y="value",
-    color="metric",
+    y="Value",
+    color="Metric",
     barmode="group",
     title=f"Historical Trends — {selected_patient}",
     color_discrete_sequence=px.colors.qualitative.Set2
