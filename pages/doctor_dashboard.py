@@ -27,11 +27,11 @@ def generate_patient_data(seed):
     dates = pd.date_range(end=datetime.today(), periods=30)
     df = pd.DataFrame({
         "date": dates,
-        "systolic_bp": 120 + np.random.randn(30).cumsum(),
-        "diastolic_bp": 80 + np.random.randn(30).cumsum(),
+        "Temprature": 120 + np.random.randn(30).cumsum(),
+        "blood_pressure": 80 + np.random.randn(30).cumsum(),
         "heart_rate": 70 + np.random.randn(30) * 2,
-        "glucose": 100 + np.random.randn(30).cumsum(),
-        "cholesterol": 180 + np.random.randn(30).cumsum()
+        "Weight": 100 + np.random.randn(30).cumsum(),
+        "Height": 180 + np.random.randn(30).cumsum()
     })
     return df
 
