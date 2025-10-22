@@ -19,19 +19,26 @@ patients = ["Mary Poppings", "Jackson Wang"]
 selected_patient = st.selectbox("Select Patient", patients)
 
 # ----------------------------
-# 🩺 Simulated Patient Data
+# 🩺 Simulated Patient Data (Improved realism)
 # ----------------------------
 @st.cache_data
 def generate_patient_data(seed):
     np.random.seed(seed)
     dates = pd.date_range(end=datetime.today(), periods=30)
+
+    # smooth day-to-day fluctuations (low-frequency noise)
+    def smooth_series(base, noise_scale, smooth_window=5):
+        noise = np.random.normal(0, noise_scale, len(dates))
+        series = base + noise
+        return pd.Series(series).rolling(window=smooth_window, min_periods=1, center=True).mean().values
+
     df = pd.DataFrame({
         "date": dates,
-        "Temperature": 36.5 + np.random.randn(30) * 0.3,       # 36~37°C range
-        "Blood Pressure": 120 + np.random.randn(30) * 5,       # around 120 ± 5 mmHg
-        "Heart Rate": 70 + np.random.randn(30) * 3,            # around 70 ± 3 bpm
-        "Weight": 65 + np.random.randn(30) * 1.5,              # around 65 ± 1.5 kg
-        "Height": 170 + np.random.randn(30) * 0.5              # around 170 ± 0.5 cm
+        "Temperature": smooth_series(36.6, 0.2),        # around 36.6°C ± 0.2
+        "Blood Pressure": smooth_series(120, 4),        # around 120 ± 4 mmHg
+        "Heart Rate": smooth_series(72, 2),             # around 72 ± 2 bpm
+        "Weight": smooth_series(65, 0.8),               # around 65 ± 0.8 kg (smooth daily variation)
+        "Height": smooth_series(170, 0.2)               # around 170 ± 0.2 cm (nearly stable)
     })
     return df
 
