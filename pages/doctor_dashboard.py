@@ -28,7 +28,7 @@ def generate_patient_data(seed):
     df = pd.DataFrame({
         "date": dates,
         "Temperature": 36.5 + np.random.randn(30) * 0.3,
-        "Blood Pressure": 120 + np.random.randn(30).cumsum(),
+        "Blood Pressure": 120 + np.random.randn(30),
         "Heart Rate": 70 + np.random.randn(30) * 2,
         "Weight": 65 + np.random.randn(30).cumsum(),
         "Height": 170 + np.random.randn(30) * 0.1
