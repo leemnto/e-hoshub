@@ -27,11 +27,11 @@ def generate_patient_data(seed):
     dates = pd.date_range(end=datetime.today(), periods=30)
     df = pd.DataFrame({
         "date": dates,
-        "Temperature": 36.5 + np.random.randn(30) * 0.3,
-        "Blood Pressure": 120 + np.random.randn(30),
-        "Heart Rate": 70 + np.random.randn(30) * 2,
-        "Weight": 65 + np.random.randn(30),
-        "Height": 170 + np.random.randn(30) * 0.1
+        "Temperature": 36.5 + np.random.randn(30) * 0.3,       # 36~37°C range
+        "Blood Pressure": 120 + np.random.randn(30) * 5,       # around 120 ± 5 mmHg
+        "Heart Rate": 70 + np.random.randn(30) * 3,            # around 70 ± 3 bpm
+        "Weight": 65 + np.random.randn(30) * 1.5,              # around 65 ± 1.5 kg
+        "Height": 170 + np.random.randn(30) * 0.5              # around 170 ± 0.5 cm
     })
     return df
 
@@ -104,21 +104,4 @@ if selected_patient == "Mary Poppings":
 else:
     prescriptions = pd.DataFrame({
         "Medication": ["Atorvastatin", "Losartan"],
-        "Dosage": ["10 mg", "50 mg"],
-        "Frequency": ["Once daily", "Once daily"],
-        "Purpose": ["Cholesterol management", "Hypertension"]
-    })
-
-st.dataframe(prescriptions, use_container_width=True)
-
-# ----------------------------
-# 🧠 LLM Clinical Recommendation
-# ----------------------------
-st.subheader("🧠 LLM Clinical Recommendation")
-st.write("This area will call an LLM API to generate a preliminary report based on AI diagnostics and recent trends.")
-
-# ----------------------------
-# 🩺 Footer
-# ----------------------------
-st.markdown("---")
-st.caption(f"© 2025 Doctor Dashboard | Patient: {selected_patient} | Streamlit Health Monitoring System")
+        "Dosage": ["10 mg", "50]()
