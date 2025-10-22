@@ -26,19 +26,31 @@ def generate_patient_data(seed):
     np.random.seed(seed)
     dates = pd.date_range(end=datetime.today(), periods=30)
 
-    # smooth day-to-day fluctuations (low-frequency noise)
     def smooth_series(base, noise_scale, smooth_window=5):
         noise = np.random.normal(0, noise_scale, len(dates))
         series = base + noise
         return pd.Series(series).rolling(window=smooth_window, min_periods=1, center=True).mean().values
 
+    # General vitals (smooth fluctuations)
+    temperature = smooth_series(36.6, 0.2)
+    blood_pressure = smooth_series(120, 4)
+    heart_rate = smooth_series(72, 2)
+
+    # Weight & Height with bounded random variation (in specified range)
+    weight = np.random.uniform(150, 160, len(dates))
+    height = np.random.uniform(185, 188, len(dates))
+
+    # Smooth them a little to avoid sharp jumps
+    weight = pd.Series(weight).rolling(window=3, min_periods=1, center=True).mean().values
+    height = pd.Series(height).rolling(window=3, min_periods=1, center=True).mean().values
+
     df = pd.DataFrame({
         "date": dates,
-        "Temperature": smooth_series(36.6, 0.2),        # around 36.6°C ± 0.2
-        "Blood Pressure": smooth_series(120, 4),        # around 120 ± 4 mmHg
-        "Heart Rate": smooth_series(72, 2),             # around 72 ± 2 bpm
-        "Weight": smooth_series(65, 0.8),               # around 65 ± 0.8 kg (smooth daily variation)
-        "Height": smooth_series(170, 0.2)               # around 170 ± 0.2 cm (nearly stable)
+        "Temperature": temperature,
+        "Blood Pressure": blood_pressure,
+        "Heart Rate": heart_rate,
+        "Weight": weight,
+        "Height": height
     })
     return df
 
@@ -51,7 +63,6 @@ else:
 # 📈 Vital Signs Chart
 # ----------------------------
 st.subheader("📉 Vital Signs Over Time (Temperature, Blood Pressure, Heart Rate)")
-
 st.line_chart(
     df.set_index("date")[["Temperature", "Blood Pressure", "Heart Rate"]],
     use_container_width=True
