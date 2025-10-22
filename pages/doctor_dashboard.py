@@ -104,4 +104,21 @@ if selected_patient == "Mary Poppings":
 else:
     prescriptions = pd.DataFrame({
         "Medication": ["Atorvastatin", "Losartan"],
-        "Dosage": ["10 mg", "50]()
+        "Dosage": ["10 mg", "50 mg"],
+        "Frequency": ["Once daily", "Once daily"],
+        "Purpose": ["Cholesterol management", "Hypertension"]
+    })
+
+st.dataframe(prescriptions, use_container_width=True)
+
+# ----------------------------
+# 🧠 LLM Clinical Recommendation
+# ----------------------------
+st.subheader("🧠 LLM Clinical Recommendation")
+st.write("This area will call an LLM API to generate a preliminary report based on AI diagnostics and recent trends.")
+
+# ----------------------------
+# 🩺 Footer
+# ----------------------------
+st.markdown("---")
+st.caption(f"© 2025 Doctor Dashboard | Patient: {selected_patient} | Streamlit Health Monitoring System")
